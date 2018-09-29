@@ -1,0 +1,81 @@
+import java.util.Scanner;
+
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int t,i,j,n;
+		n = sc.nextInt();
+		int []a = new int[n];
+		for(i = 0;i < n;i++)
+			a[i] = sc.nextInt();
+		for(i = 0;i < n-1;i++)
+			for(j = 0;j < n-i-1;j++)
+				if(a[j] > a[j+1])
+				{
+					t = a[j];
+					a[j] = a[j+1];
+					a[j+1] = t;
+				}
+		if(n % 2 == 0)
+		{
+			if(a[n/2] == a[n/2-1])
+			{
+				int flag1 = n/2-1;
+				int flag2 = n/2;
+				while(flag1 >= 0 && flag2 < n)
+				{
+					flag1 --;
+					flag2 ++;
+					if(flag1 == -1 && flag2 == n)
+						break;
+					if(a[flag1] == a[flag2] && a[flag1] == a[n/2])
+						continue;
+					else if(a[flag1] != a[n/2] && a[flag2] != a[n/2])
+					{
+						System.out.println(a[n/2]);
+						break;
+					}
+					else if(a[flag1] != a[n/2] || a[flag2] != a[n/2])
+					{
+						System.out.println("-1");
+						break;
+					}
+				}
+				if(flag1 == -1 && flag2 == n)
+					System.out.println(a[n/2]);
+			}
+			else
+				System.out.println("-1");
+		}
+		else
+		{
+			int flag1 = n/2;
+			int flag2 = n/2;
+			while(flag1 >= 0 && flag2 < n)
+			{
+				flag1 --;
+				flag2 ++;
+				if(flag1 == -1 && flag2 == n)
+					break;
+				if(a[flag1] == a[flag2] && a[flag1] == a[n/2])
+					continue;
+				else if(a[flag1] != a[n/2] && a[flag2] != a[n/2])
+				{
+					System.out.println(a[n/2]);
+					break;
+				}
+				else if(a[flag1] != a[n/2] || a[flag2] != a[n/2])
+				{
+					System.out.println("-1");
+					break;
+				}
+			}
+			if(flag1 == -1 && flag2 == n)
+				System.out.println(a[n/2]);
+		}
+		sc.close();
+	}
+
+}
