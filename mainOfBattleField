@@ -1,0 +1,97 @@
+package BattleField;
+
+import java.util.Scanner;
+
+/**  
+* 
+* @ClassName: Main
+* @Description: TODO
+* @author wangxuanqi
+* @date 2018年10月16日 下午9:43:40
+*
+*/
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String typeOfHero,Operator,direction ;
+		int numberOfHero,numberOfOperator,hp,mp,exp,att,level,ap,x,y,st,i,j,m,n,distance,seat,seatOfFirstHero,seatOfNextHero;
+		System.out.print("请输入地图长度和宽度：");
+		m = sc.nextInt();
+		n = sc.nextInt();
+		map Map = new map(m,n);
+		System.out.print("请输入英雄数量：");
+		numberOfHero = sc.nextInt();
+		hero []Heroes = new hero[numberOfHero];
+		System.out.println("请输入所有英雄信息：");
+		for(i = 0;i < numberOfHero;i++)
+		{
+			typeOfHero = sc.next();
+			hp = sc.nextInt();
+			mp = sc.nextInt();
+			exp = sc.nextInt();
+			att = sc.nextInt();
+			level = sc.nextInt();
+			ap = sc.nextInt();
+			x = sc.nextInt();
+			y = sc.nextInt();
+			if(typeOfHero == "long")
+				Heroes[i].setLongHero(hp, mp, exp, att, level, ap, x, y);
+			else if(typeOfHero == "closed")
+				Heroes[i].setClosedHero(hp, mp, exp, att, level, ap, x, y);
+		}
+		Map.setHero(Heroes,numberOfHero);
+		System.out.print("请输入操作数量：");
+		numberOfOperator = sc.nextInt();
+		/**
+		 * 进行操作
+		 * first:英雄对另一个英雄发起一技能攻击
+		 * second:英雄对另一个英雄发起二技能攻击
+		 * third:英雄对另一个英雄发起三技能攻击
+		 * attack:英雄对另一个英雄发起普通攻击
+		 * remove:英雄进行移动
+		 */
+		System.out.print("请输入所有操作：");
+		for(i = 0;i < numberOfOperator;i++)
+		{
+			Operator = sc.next();
+			if(Operator == "first")
+			{
+				seatOfFirstHero = sc.nextInt();
+				seatOfNextHero = sc.nextInt();
+				Heroes[seatOfFirstHero].firstSkill(Heroes[seatOfNextHero]);
+			}
+			else if(Operator == "second")
+			{
+				seatOfFirstHero = sc.nextInt();
+				seatOfNextHero = sc.nextInt();
+				Heroes[seatOfFirstHero].secondSkill(Heroes[seatOfNextHero]);
+			}
+			else if(Operator == "third")
+			{
+				seatOfFirstHero = sc.nextInt();
+				seatOfNextHero = sc.nextInt();
+				Heroes[seatOfFirstHero].thirdSkill(Heroes[seatOfNextHero]);
+			}
+			else if(Operator == "attack")
+			{
+				seatOfFirstHero = sc.nextInt();
+				seatOfNextHero = sc.nextInt();
+				Heroes[seatOfFirstHero].CommonAttack(Heroes[seatOfNextHero]);
+			}
+			else if(Operator == "remove")
+			{
+				seat = sc.nextInt();
+				direction = sc.next();
+				distance = sc.nextInt();
+				Map.Remove(direction, distance, Heroes[seat]);
+			}
+			Map.print();
+			for(j = 0;j < numberOfHero;j++)
+			{
+				Heroes[j].print();
+				Heroes[j].upgrade();
+			}
+		}
+		
+	}
+}
