@@ -1,0 +1,86 @@
+package BattleField;
+/**  
+* 
+* @ClassName: map
+* @Description: TODO
+* @author wangxuanqi
+* @date 2018年10月16日 下午9:19:50
+*
+*/
+import java.util.ArrayList;
+
+import java.util.List;
+public class map {
+	public char [][]map;
+	public int m;
+	public int n;
+	public List<hero> heros = new ArrayList<hero>();
+	public map()
+	{		
+		m = 0;
+		n = 0;
+	}
+	public map(int a,int b)
+	{
+		int i,j;
+		m = a;
+		n = b;
+		map = new char[m][n];
+		map[0][0] = '*';
+		map[0][n-1] = '*';
+		map[m-1][0] = '*';
+		map[m-1][n-1] = '*';
+		for(i = 1;i < m-1;i++)
+		{
+			map[i][0] = '-';
+			map[i][n-1] = '-';
+		}
+		for(j = 1;j < n-1;j++)
+		{
+			map[0][j] = '|';
+			map[m-1][j] = '|';
+		}
+		for(i = 1;i < m-1;i++)
+			for(j = 1;j < n-1;j++)
+				map[i][j] = ' ';
+	}
+	public void setHero(hero r[],int n)
+	{
+		for(int i = 0;i < n;i++)
+		{
+			String str=String.valueOf(i);
+			map[r[i].xSeat][r[i].ySeat] = str.charAt(1);
+		}
+	}
+	public void Remove(String str,int distance,hero r)
+	{
+		if(str == "up")
+		{
+			map[r.xSeat][r.ySeat-distance] = map[r.xSeat][r.ySeat];
+			r.ySeat -= distance;
+		}
+		else if(str == "down")
+		{
+			map[r.xSeat][r.ySeat+distance] = map[r.xSeat][r.ySeat];
+			r.ySeat += distance;
+		}
+		else if(str == "left")
+		{
+			map[r.xSeat-distance][r.ySeat] = map[r.xSeat][r.ySeat];
+			r.xSeat -= distance;
+		}
+		else if(str == "right")
+		{
+			
+			map[r.xSeat+distance][r.ySeat] = map[r.xSeat][r.ySeat];
+			r.xSeat += distance;
+
+		}
+	}
+	public void print()
+	{
+		for(int i = 0;i < m;i++)
+			for(int j = 0;j < n;j++)
+				System.out.print(map[i][j]);
+	}
+}
