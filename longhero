@@ -1,0 +1,96 @@
+package battlefield;
+
+import java.util.List;
+
+public class longHero extends hero{
+	public int distanceOfAttack;
+	public int distanceOfFirstSkill;
+	public int distanceOfSecondSkill;
+	public int distanceOfThirdSkill;
+	public longHero()
+	{
+		level = 0;
+		HP = 0;
+		MP = 0;
+		EXP = 0;
+		attack = 0;
+		AP = 0;
+		attackDistance = 0;
+		state = "alive";
+		xSeat = 0;
+		ySeat = 0;
+		campOfHero = "";
+		distanceOfAttack = 0;
+		distanceOfFirstSkill = 0;
+		distanceOfSecondSkill = 0;
+		distanceOfThirdSkill = 0;
+	}
+	public void setLongHero(int h,int m,int e,int a,int l,int ap,int x,int y,String camp)
+	{
+		level = l;
+		HP = h;
+		MP = m;
+		EXP = e;
+		attack = a;
+		AP = ap;
+		attackDistance = 6;
+		state = "alive";
+		xSeat = x;
+		ySeat = y;
+		campOfHero = camp;
+		distanceOfAttack = 6;
+		distanceOfFirstSkill = 3;
+		distanceOfSecondSkill = 5;
+		distanceOfThirdSkill = 7;
+	}
+	public boolean CommonAttack(map m)
+	{
+		for(int i = 1;i <= this.distanceOfAttack;i++)
+		{
+			for(int j = max(this.xSeat-i,0);j <= min(m.width,this.xSeat+i);j++)
+				for(int k = max(this.ySeat-i,0);k <= min(m.height,this.ySeat+i);k++)
+				{
+					if(j == this.xSeat && k == this.ySeat)
+						continue;
+					else
+					{
+						if(this.campOfHero == "BLUE")
+						{
+							if(m.map[j][k] >= 'A'&&m.map[j][k] <= 'Z')
+							{
+								if(m.map[j][k-1] == 'l')
+								{
+									longHeroes[m.map[j][k]-'A'].HP -= this.attack;
+									if(longHeroes[m.map[j][k]-'A'].HP <= 0)
+									{
+										longHeroes[m.map[j][k]-'A'].state = "died";
+										this.EXP += 50;
+										if(this.EXP >= 100)
+											this.upgrade();
+									}
+									return true;
+								}
+								
+							}
+								
+						}
+					}
+				}
+		}
+	}
+	public void firstSkill(map m)
+	{
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= distanceOfSkill)
+		{
+			r.HP -= (this.level*12 + this.attack*0.5 + 35);
+			MP -= 20;
+			if(r.HP <= 0)
+			{
+				r.state = "died";
+				this.EXP += 50;
+				if(this.EXP >= 100)
+					this.upgrade();
+			}
+		}
+	}
+}
