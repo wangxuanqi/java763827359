@@ -34,9 +34,10 @@ public class Main {
 			ap = sc.nextInt();
 			x = sc.nextInt();
 			y = sc.nextInt();
-			if(typeOfHero == "long")
+			Heroes[i] = new hero();
+			if(typeOfHero.equals("long"))
 				Heroes[i].setLongHero(hp, mp, exp, att, level, ap, x, y);
-			else if(typeOfHero == "closed")
+			else if(typeOfHero.equals("closed"))
 				Heroes[i].setClosedHero(hp, mp, exp, att, level, ap, x, y);
 		}
 		Map.setHero(Heroes,numberOfHero);
