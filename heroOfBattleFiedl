@@ -1,0 +1,56 @@
+package BattleField;
+
+public class hero {
+	public int HP;				//生命值
+	public int MP;				//法力值
+	public int EXP;				//经验
+	public int attack;			//攻击力
+	public int level;			//等级
+	public int attackDistance;	//攻击距离
+	public int AP;				//法强
+	public int xSeat,ySeat;		//位置
+	public String state;		//生存状态
+	public String isAction;     //是否能行动
+	public int timeOfAction;    //眩晕时间
+	public hero()
+	{
+	}
+	public int getAttack()
+	{
+		return attack;
+	}
+	public boolean isAttack(hero r)
+	{
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
+			return true;
+		else
+			return false;
+	}
+	public void Remove(String str,int distance)
+	{
+		if(str == "up")
+			ySeat -= distance;
+		else if(str == "down")
+			ySeat += distance;
+		else if(str == "left")
+			xSeat -= distance;
+		else if(str == "right")
+			xSeat += distance;
+	}
+	public void print()										//输出英雄信息
+	{
+		System.out.println("生命值:"+HP);
+		System.out.println("法力值:"+MP);
+		System.out.println("等级:"+level);
+		System.out.println("存活状态:"+state);
+		System.out.println("行动能力:"+isAction);
+	}
+	public void actionUpgrade()
+	{
+		if(this.timeOfAction > 0)
+			this.timeOfAction--;
+		else
+			this.isAction = "OK";
+	}
+}
+
