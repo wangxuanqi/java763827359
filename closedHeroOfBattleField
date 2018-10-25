@@ -1,0 +1,149 @@
+package BattleField;
+/**  
+* 
+* @ClassName: closedHero
+* @Description: TODO
+* @author suyuyuan
+* @date 2018年10月24日 下午10:06:37
+*
+*/
+public class closedHero extends hero{
+	public void setClosedHero(int h,int m,int e,int a,int l,int ap,int x,int y)
+	{
+		level = l;
+		HP = h;
+		MP = m;
+		EXP = e;
+		attack = a;
+		AP = ap;
+		attackDistance = 2;
+		timeOfAction = 0;
+		isAction = "OK";
+		state = "alive";
+		xSeat = x;
+		ySeat = y;
+	}
+	public void CommonAttack(longHero r)
+	{
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
+		{
+			r.HP -= this.attack;
+			if(r.HP <= 0)
+			{
+				r.state = "died";
+				this.EXP += 50;
+				if(this.EXP >= 100)
+					this.upgrade();
+			}
+		}
+	}
+	public void CommonAttack(closedHero r)
+	{
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
+		{
+			r.HP -= this.attack;
+			if(r.HP <= 0)
+			{
+				r.state = "died";
+				this.EXP += 50;
+				if(this.EXP >= 100)
+					this.upgrade();
+			}
+		}
+	}
+	public void firstSkill(longHero r)
+	{
+		this.attack += 50;
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
+		{
+			r.HP -= this.attack;
+			MP -= 20;
+			
+			if(r.HP <= 0)
+			{
+				r.state = "died";
+				this.EXP += 50;
+				if(this.EXP >= 100)
+					this.upgrade();
+			}
+		}
+		this.attack -= 20;
+	}
+	public void firstSkill(closedHero r)
+	{
+		this.attack += 50;
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
+		{
+			r.HP -= this.attack;
+			MP -= 20;
+			
+			if(r.HP <= 0)
+			{
+				r.state = "died";
+				this.EXP += 50;
+				if(this.EXP >= 100)
+					this.upgrade();
+			}
+		}
+		this.attack -= 20;
+	}
+	public void secondSkill(map map1,longHero hero1[],closedHero hero2[]) 						//法师技能
+	{
+		int distanceOfSkill = 2;
+		int i,j;
+		this.MP -= 20;
+		for(i = this.xSeat-distanceOfSkill;i < this.xSeat+distanceOfSkill;i++)
+			for(j = this.ySeat-distanceOfSkill;i < this.ySeat+distanceOfSkill;j++)
+			{
+				if(i != this.xSeat&&j != this.ySeat)
+				{
+					if(map1.map[i][j] == ' ')
+							map1.map[i][j] == '#';
+					else if(map1.map[i][j] >= 'A'&&map1.map[i][j] <= 'Z')
+					{
+						hero1[map1.map[i][j]-'A'].HP -= (this.level*10 + this.attack*1.5 + 30);
+						if(hero1[map1.map[i][j]-'A'].HP <= 0)
+						{
+							hero1[map1.map[i][j]-'A'].state = "died";
+							this.EXP += 50;
+							if(this.EXP >= 100)
+								this.upgrade();
+						}
+					}
+					else if(map1.map[i][j] >= 'a'&&map1.map[i][j] <= 'z')
+					{
+						hero2[map1.map[i][j]-'a'].HP -= (this.level*10 + this.attack*1.5 + 30);
+						if(hero2[map1.map[i][j]-'a'].HP <= 0)
+						{
+							hero2[map1.map[i][j]-'a'].state = "died";
+							this.EXP += 50;
+							if(this.EXP >= 100)
+								this.upgrade();
+						}
+					}
+				}
+			}
+	}
+	public void thirdSkill(longHero r)	
+	{
+		
+	}
+	public void upgrade()
+	{
+		EXP = EXP - 100;
+		HP += 100;
+		MP += 50;
+		level ++;
+		attack += 20;
+	}
+	public void HP_MP_EXPup()
+	{
+		HP += 10;
+		MP += 5;
+		attack += 2;
+		EXP += 10;
+		if(EXP >= 100)
+			this.upgrade();
+	}
+}
+
