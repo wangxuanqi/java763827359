@@ -32,47 +32,64 @@ public class map {
 		map[m-1][n-1] = '*';
 		for(i = 1;i < m-1;i++)
 		{
-			map[i][0] = '-';
-			map[i][n-1] = '-';
+			map[i][0] = '|';
+			map[i][n-1] = '|';
 		}
 		for(j = 1;j < n-1;j++)
 		{
-			map[0][j] = '|';
-			map[m-1][j] = '|';
+			map[0][j] = '-';
+			map[m-1][j] = '-';
 		}
 		for(i = 1;i < m-1;i++)
 			for(j = 1;j < n-1;j++)
 				map[i][j] = ' ';
 	}
-	public void setHero(hero r[],int n)
+	public void mapcopy(map map1)
 	{
-		for(int i = 0;i < n;i++)
+		m = map1.m;
+		n = map1.n;
+		for(int i = 0;i < m;i++)
+			for(int j = 0;j < n;j++)
+				map[i][j] = map1.map[i][j];
+		
+	}
+	public void setHero(longHero r1[],int n1,closedHero r2[],int n2)
+	{
+		for(int i = 0;i < n1;i++)
 		{
-			String str=String.valueOf(i);
-			map[r[i].xSeat][r[i].ySeat] = str.charAt(1);
+			//String str=String.valueOf(i);
+			map[r1[i].xSeat][r1[i].ySeat] = 'A';
+		}for(int i = 0;i < n2;i++)
+		{
+			//String str=String.valueOf(i);
+			map[r2[i].xSeat][r2[i].ySeat] = 'a';
 		}
 	}
 	public void Remove(String str,int distance,hero r)
 	{
-		if(str == "up")
+		if(str.equals("left"))
 		{
 			map[r.xSeat][r.ySeat-distance] = map[r.xSeat][r.ySeat];
+			map[r.xSeat][r.ySeat] = ' ';
 			r.ySeat -= distance;
 		}
-		else if(str == "down")
+		else if(str.equals("right"))
 		{
 			map[r.xSeat][r.ySeat+distance] = map[r.xSeat][r.ySeat];
+			map[r.xSeat][r.ySeat] = ' ';
 			r.ySeat += distance;
 		}
-		else if(str == "left")
+		else if(str.equals("up"))
 		{
 			map[r.xSeat-distance][r.ySeat] = map[r.xSeat][r.ySeat];
+			map[r.xSeat][r.ySeat] = ' ';
 			r.xSeat -= distance;
 		}
-		else if(str == "right")
+		else if(str.equals("down"))
 		{
 			
 			map[r.xSeat+distance][r.ySeat] = map[r.xSeat][r.ySeat];
+			map[r.xSeat][r.ySeat] = ' ';
 			r.xSeat += distance;
 
 		}
@@ -80,7 +97,10 @@ public class map {
 	public void print()
 	{
 		for(int i = 0;i < m;i++)
+		{
 			for(int j = 0;j < n;j++)
 				System.out.print(map[i][j]);
+			System.out.println();
+		}
 	}
 }
