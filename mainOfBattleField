@@ -1,21 +1,13 @@
-package BattleField;
+package battlefiled;
 
 import java.util.Scanner;
 
-/**  
-* 
-* @ClassName: Main
-* @Description: TODO
-* @author wangxuanqi
-* @date 2018年10月16日 下午9:43:40
-*
-*/
-public class Main {
+public class main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		String typeOfHero,Operator,direction,typeOfFirstHero,typeOfNextHero ;
-		int numberOfBlueLongHero,numberOfBlueClosedHero,numberOfRedLongHero,numberOfRedClosedHero,hp,mp,exp,att,level,ap,x,y,st,i,j,m,n;
-		int distance,seat,seatOfFirstHero,seatOfNextHero,round,numberOfOperator;
+		int numberOfBlueLongHero,numberOfBlueClosedHero,numberOfRedLongHero,numberOfRedClosedHero,hp,mp,exp,att,level,ap,x,y,i,j,m,n;
+		int distance,seat,seatOfFirstHero,seatOfNextHero,round,numberOfOperator,roundturn;
 		System.out.print("请输入地图长度和宽度：");
 		m = sc.nextInt();
 		n = sc.nextInt();
@@ -27,7 +19,7 @@ public class Main {
 		System.out.println("请输入所有英雄信息：");
 		for(i = 0;i < numberOfBlueLongHero;i++)
 		{
-			System.out.println("英雄:"+i);
+			System.out.println("英雄:"+(i+1));
 			hp = sc.nextInt();
 			mp = sc.nextInt();
 			exp = sc.nextInt();
@@ -48,7 +40,7 @@ public class Main {
 		System.out.println("请输入所有英雄信息：");
 		for(i = 0;i < numberOfBlueClosedHero;i++)
 		{
-			System.out.println("英雄："+i);
+			System.out.println("英雄："+(i+1));
 			hp = sc.nextInt();
 			mp = sc.nextInt();
 			exp = sc.nextInt();
@@ -71,7 +63,7 @@ public class Main {
 		System.out.println("请输入所有英雄信息：");
 		for(i = 0;i < numberOfRedLongHero;i++)
 		{
-			System.out.println("英雄:"+i);
+			System.out.println("英雄:"+(i+1));
 			hp = sc.nextInt();
 			mp = sc.nextInt();
 			exp = sc.nextInt();
@@ -92,7 +84,7 @@ public class Main {
 		System.out.println("请输入所有英雄信息：");
 		for(i = 0;i < numberOfRedClosedHero;i++)
 		{
-			System.out.println("英雄："+i);
+			System.out.println("英雄："+(i+1));
 			hp = sc.nextInt();
 			mp = sc.nextInt();
 			exp = sc.nextInt();
@@ -110,6 +102,7 @@ public class Main {
 		Map.setHero(redlongHeroes,numberOfRedLongHero,redclosedHeroes,numberOfRedClosedHero);
 		System.out.print("请输入回合数量：");
 		round = sc.nextInt();
+		roundturn = 1;
 		while(round > 0)
 		{
 			System.out.print("请输入操作数量：");
@@ -122,99 +115,244 @@ public class Main {
 			 * attack:英雄对另一个英雄发起普通攻击
 			 * remove:英雄进行移动
 			 */
-			System.out.print("请输入所有操作：");
-			for(i = 0;i < numberOfOperator;i++)
+			if(roundturn == 1)
 			{
-				map sameMap = new map();
-				sameMap.mapcopy(Map);
-				Operator = sc.next();
-				if(Operator.equals("first"))
+				System.out.println("请输入所有操作：");
+				for(i = 0;i < numberOfOperator;i++)
 				{
-					typeOfFirstHero = sc.next();
-					seatOfFirstHero = sc.nextInt();
-					typeOfNextHero = sc.next();
-					seatOfNextHero = sc.nextInt();
-					if(typeOfFirstHero.equals("long"))
+					map sameMap = new map(Map);
+					//sameMap.mapcopy(Map);
+					Operator = sc.next();
+					if(Operator.equals("first"))
 					{
-						if(typeOfNextHero.equals("long"))
-							bluelongHeroes[seatOfFirstHero].firstSkill(redlongHeroes[seatOfNextHero ]);
-						else if(typeOfNextHero.equals("closed"))
-							bluelongHeroes[seatOfFirstHero].firstSkill(redclosedHeroes[seatOfNextHero ]);	
+						typeOfFirstHero = sc.next();
+						seatOfFirstHero = sc.nextInt();
+						typeOfNextHero = sc.next();
+						seatOfNextHero = sc.nextInt();
+						if(typeOfFirstHero.equals("long"))
+						{
+							if(typeOfNextHero.equals("long"))
+								bluelongHeroes[seatOfFirstHero].firstSkill(redlongHeroes[seatOfNextHero ]);
+							else if(typeOfNextHero.equals("closed"))
+								bluelongHeroes[seatOfFirstHero].firstSkill(redclosedHeroes[seatOfNextHero ]);	
+						}
+						else if(typeOfFirstHero.equals("closed"))
+						{
+							if(typeOfNextHero.equals("long"))
+								blueclosedHeroes[seatOfFirstHero].firstSkill(redlongHeroes[seatOfNextHero ]);
+							else if(typeOfNextHero.equals("closed"))
+								blueclosedHeroes[seatOfFirstHero].firstSkill(redclosedHeroes[seatOfNextHero]);
+						}
 					}
-					else if(typeOfFirstHero.equals("closed"))
+					else if(Operator.equals("second"))
 					{
-						if(typeOfNextHero.equals("long"))
-							blueclosedHeroes[seatOfFirstHero].firstSkill(redlongHeroes[seatOfNextHero ]);
-						else if(typeOfNextHero.equals("closed"))
-							blueclosedHeroes[seatOfFirstHero].firstSkill(redclosedHeroes[seatOfNextHero]);
+						typeOfFirstHero = sc.next();
+						seatOfFirstHero = sc.nextInt();
+						if(typeOfFirstHero.equals("long"))
+						{
+							direction = sc.next();
+							bluelongHeroes[seatOfFirstHero].secondSkill(sameMap,redlongHeroes,redclosedHeroes,direction);
+						}
+						else if(typeOfFirstHero.equals("closed"))
+							blueclosedHeroes[seatOfFirstHero].secondSkill(sameMap,redlongHeroes,redclosedHeroes);
 					}
-				}
-				else if(Operator.equals("second"))
-				{
-					typeOfFirstHero = sc.next();
-					seatOfFirstHero = sc.nextInt();
-					if(typeOfFirstHero.equals("long"))
+					else if(Operator.equals("third"))
 					{
-						direction = sc.next();
-						bluelongHeroes[seatOfFirstHero].secondSkill(sameMap,redlongHeroes,redclosedHeroes,direction);
+						seatOfFirstHero = sc.nextInt();
+						seatOfNextHero = sc.nextInt();
+						//Heroes[seatOfFirstHero].thirdSkill(Heroes[seatOfNextHero]);
 					}
-					else if(typeOfFirstHero.equals("closed"))
-						blueclosedHeroes[seatOfFirstHero].secondSkill(sameMap,redlongHeroes,redclosedHeroes);
-				}
-				else if(Operator.equals("third"))
-				{
-					seatOfFirstHero = sc.nextInt();
-					seatOfNextHero = sc.nextInt();
-					Heroes[seatOfFirstHero].thirdSkill(Heroes[seatOfNextHero]);
-				}
-				else if(Operator.equals("attack"))
-				{
-					seatOfFirstHero = sc.nextInt();
-					seatOfNextHero = sc.nextInt();
-					Heroes[seatOfFirstHero].CommonAttack(Heroes[seatOfNextHero]);
-				}
-				else if(Operator.equals("remove"))
-				{
-					typeOfFirstHero = sc.next();
-					seat = sc.nextInt();
-					direction = sc.next();
-					distance = sc.nextInt();
-					if(typeOfFirstHero.equals("closed"))
-						Map.Remove(direction, distance, blueclosedHeroes[seat]);
-					else if(typeOfFirstHero.equals("long"))
-						Map.Remove(direction, distance, bluelongHeroes[seat]);
+					else if(Operator.equals("attack"))
+					{
+						typeOfFirstHero = sc.next();
+						seatOfFirstHero = sc.nextInt();
+						typeOfNextHero = sc.next();
+						seatOfNextHero = sc.nextInt();
+						if(typeOfFirstHero.equals("long"))
+						{
+							if(typeOfNextHero.equals("long"))
+								bluelongHeroes[seatOfFirstHero].CommonAttack(redlongHeroes[seatOfNextHero]);
+							else if(typeOfNextHero.equals("closed"))
+								bluelongHeroes[seatOfFirstHero].CommonAttack(redclosedHeroes[seatOfNextHero]);	
+						}
+						else if(typeOfFirstHero.equals("closed"))
+						{
+							if(typeOfNextHero.equals("long"))
+								blueclosedHeroes[seatOfFirstHero].CommonAttack(redlongHeroes[seatOfNextHero]);
+							else if(typeOfNextHero.equals("closed"))
+								blueclosedHeroes[seatOfFirstHero].CommonAttack(redclosedHeroes[seatOfNextHero]);
+						}
 						
+					}
+					else if(Operator.equals("move"))
+					{
+						typeOfFirstHero = sc.next();
+						seat = sc.nextInt();
+						direction = sc.next();
+						distance = sc.nextInt();
+						if(typeOfFirstHero.equals("closed"))
+						{
+							//Map.Remove(direction, distance, blueclosedHeroes[seat]);
+							sameMap.Remove(direction, distance, blueclosedHeroes[seat]);
+						}
+						else if(typeOfFirstHero.equals("long"))
+						{
+							System.out.println(direction);
+							//Map.Remove(direction, distance, bluelongHeroes[seat]);
+							sameMap.Remove(direction, distance, bluelongHeroes[seat]);
+						}
+							
+					}
+					//sameMap.print();
+					//Map.print();
+					System.out.println("蓝色方英雄信息：");
+					for(j = 0;j < numberOfBlueLongHero;j++)
+					{
+						System.out.println("远程英雄"+i);
+						bluelongHeroes[j].print();
+						bluelongHeroes[j].HP_MP_EXPup();
+					}
+					for(j = 0;j < numberOfBlueClosedHero;j++)
+					{
+						System.out.println("近战英雄"+i);
+						blueclosedHeroes[j].print();
+						blueclosedHeroes[j].HP_MP_EXPup();
+					}
+					System.out.println("红色方英雄信息：");
+					for(j = 0;j < numberOfRedLongHero;j++)
+					{
+						System.out.println("远程英雄"+i);
+						redlongHeroes[j].print();
+						redlongHeroes[j].HP_MP_EXPup();
+					}
+					for(j = 0;j < numberOfRedClosedHero;j++)
+					{
+						System.out.println("近战英雄"+i);
+						redclosedHeroes[j].print();
+						redclosedHeroes[j].HP_MP_EXPup();
+					}
 				}
-				sameMap.print();
-				System.out.println("蓝色方英雄信息：");
-				for(j = 0;j < numberOfBlueLongHero;j++)
+				roundturn = 0;
+			}
+			else
+			{
+				System.out.print("请输入所有操作：");
+				for(i = 0;i < numberOfOperator;i++)
 				{
-					System.out.println("远程英雄"+i);
-					bluelongHeroes[j].print();
-					bluelongHeroes[j].HP_MP_EXPup();
+					map sameMap = new map(Map);
+					//sameMap.mapcopy(Map);
+					Operator = sc.next();
+					if(Operator.equals("first"))
+					{
+						typeOfFirstHero = sc.next();
+						seatOfFirstHero = sc.nextInt();
+						typeOfNextHero = sc.next();
+						seatOfNextHero = sc.nextInt();
+						if(typeOfFirstHero.equals("long"))
+						{
+							if(typeOfNextHero.equals("long"))
+								redlongHeroes[seatOfFirstHero].firstSkill(bluelongHeroes[seatOfNextHero ]);
+							else if(typeOfNextHero.equals("closed"))
+								redlongHeroes[seatOfFirstHero].firstSkill(blueclosedHeroes[seatOfNextHero ]);	
+						}
+						else if(typeOfFirstHero.equals("closed"))
+						{
+							if(typeOfNextHero.equals("long"))
+								redclosedHeroes[seatOfFirstHero].firstSkill(bluelongHeroes[seatOfNextHero ]);
+							else if(typeOfNextHero.equals("closed"))
+								redclosedHeroes[seatOfFirstHero].firstSkill(blueclosedHeroes[seatOfNextHero]);
+						}
+					}
+					else if(Operator.equals("second"))
+					{
+						typeOfFirstHero = sc.next();
+						seatOfFirstHero = sc.nextInt();
+						if(typeOfFirstHero.equals("long"))
+						{
+							direction = sc.next();
+							redlongHeroes[seatOfFirstHero].secondSkill(sameMap,bluelongHeroes,blueclosedHeroes,direction);
+						}
+						else if(typeOfFirstHero.equals("closed"))
+							redclosedHeroes[seatOfFirstHero].secondSkill(sameMap,bluelongHeroes,blueclosedHeroes);
+					}
+					else if(Operator.equals("third"))
+					{
+						seatOfFirstHero = sc.nextInt();
+						seatOfNextHero = sc.nextInt();
+						//Heroes[seatOfFirstHero].thirdSkill(Heroes[seatOfNextHero]);
+					}
+					else if(Operator.equals("attack"))
+					{
+						typeOfFirstHero = sc.next();
+						seatOfFirstHero = sc.nextInt();
+						typeOfNextHero = sc.next();
+						seatOfNextHero = sc.nextInt();
+						if(typeOfFirstHero.equals("long"))
+						{
+							if(typeOfNextHero.equals("long"))
+								redlongHeroes[seatOfFirstHero].CommonAttack(bluelongHeroes[seatOfNextHero]);
+							else if(typeOfNextHero.equals("closed"))
+								redlongHeroes[seatOfFirstHero].CommonAttack(blueclosedHeroes[seatOfNextHero]);	
+						}
+						else if(typeOfFirstHero.equals("closed"))
+						{
+							if(typeOfNextHero.equals("long"))
+								redclosedHeroes[seatOfFirstHero].CommonAttack(bluelongHeroes[seatOfNextHero]);
+							else if(typeOfNextHero.equals("closed"))
+								redclosedHeroes[seatOfFirstHero].CommonAttack(blueclosedHeroes[seatOfNextHero]);
+						}
+					}
+					else if(Operator.equals("move"))
+					{
+						typeOfFirstHero = sc.next();
+						seat = sc.nextInt();
+						direction = sc.next();
+						distance = sc.nextInt();
+						if(typeOfFirstHero.equals("closed"))
+						{
+							sameMap.Remove(direction, distance, redclosedHeroes[seat]);
+							Map.Remove(direction, distance, redclosedHeroes[seat]);
+						}
+						else if(typeOfFirstHero.equals("long"))
+						{
+							sameMap.Remove(direction, distance, redlongHeroes[seat]);
+							Map.Remove(direction, distance, redlongHeroes[seat]);
+						}
+							
+					}
+					sameMap.print();
+					System.out.println("蓝色方英雄信息：");
+					for(j = 0;j < numberOfBlueLongHero;j++)
+					{
+						System.out.println("远程英雄"+i);
+						bluelongHeroes[j].print();
+						bluelongHeroes[j].HP_MP_EXPup();
+					}
+					for(j = 0;j < numberOfBlueClosedHero;j++)
+					{
+						System.out.println("近战英雄"+i);
+						blueclosedHeroes[j].print();
+						blueclosedHeroes[j].HP_MP_EXPup();
+					}
+					System.out.println("红色方英雄信息：");
+					for(j = 0;j < numberOfRedLongHero;j++)
+					{
+						System.out.println("远程英雄"+i);
+						redlongHeroes[j].print();
+						redlongHeroes[j].HP_MP_EXPup();
+					}
+					for(j = 0;j < numberOfRedClosedHero;j++)
+					{
+						System.out.println("近战英雄"+i);
+						blueclosedHeroes[j].print();
+						redclosedHeroes[j].HP_MP_EXPup();
+					}
 				}
-				for(j = 0;j < numberOfBlueClosedHero;j++)
-				{
-					System.out.println("近战英雄"+i);
-					blueclosedHeroes[j].print();
-					blueclosedHeroes[j].HP_MP_EXPup();
-				}
-				System.out.println("红色方英雄信息：");
-				for(j = 0;j < numberOfRedLongHero;j++)
-				{
-					System.out.println("远程英雄"+i);
-					redlongHeroes[j].print();
-					redlongHeroes[j].HP_MP_EXPup();
-				}
-				for(j = 0;j < numberOfRedClosedHero;j++)
-				{
-					System.out.println("近战英雄"+i);
-					redclosedHeroes[j].print();
-					redclosedHeroes[j].HP_MP_EXPup();
-				}
+				roundturn = 1;
 			}
 			round--;
 		}
 		
 	}
 }
+
