@@ -1,193 +1,196 @@
 package BattleField;
+
 /**  
-* 
+*
 * @ClassName: longHero
 * @Description: TODO
-* @author suyuyuan
+* @author wangxuanqi
 * @date 2018年10月24日 下午9:04:45
 *
 */
+
 public class longHero extends hero{
-	public void setLongHero(int h,int m,int e,int a,int l,int ap,int x,int y)
+	public void setLongHero(int h,int m,int e,int a,int l,int ap,int x,int y)   //构建英雄
+
 	{
+
 		level = l;
+
 		HP = h;
+
 		MP = m;
+
 		EXP = e;
+
 		attack = a;
+
 		AP = ap;
+
 		attackDistance = 6;
+
 		state = "alive";
+
 		isAction = "OK";
+
 		timeOfAction = 0;
+
 		xSeat = x;
+
 		ySeat = y;
+
 	}
-	public void CommonAttack(longHero r)
+
+	public void CommonAttack(longHero r,map map1)	//普通攻击
+
 	{
-		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
+		int i,j;
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance*this.attackDistance)
 		{
-			r.HP -= this.attack;
-			if(r.HP <= 0)
+			if(r.ySeat < this.ySeat && r.xSeat <= this.xSeat)
 			{
-				r.state = "died";
-				this.EXP += 50;
-				if(this.EXP >= 100)
-					this.upgrade();
-			}
-		}
-	}
-	public void CommonAttack(closedHero r)
-	{
-		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
-		{
-			r.HP -= this.attack;
-			if(r.HP <= 0)
-			{
-				r.state = "died";
-				this.EXP += 50;
-				if(this.EXP >= 100)
-					this.upgrade();
-			}
-		}
-	}
-	public void firstSkill(longHero r)
-	{
-		this.attack += 20;
-		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
-		{
-			r.HP -= this.attack;
-			MP -= 20;
-			
-			if(r.HP <= 0)
-			{
-				r.state = "died";
-				this.EXP += 50;
-				if(this.EXP >= 100)
-					this.upgrade();
-			}
-		}
-		this.attack -= 20;
-	}
-	public void firstSkill(closedHero r)
-	{
-		this.attack += 20;
-		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
-		{
-			r.HP -= this.attack;
-			MP -= 20;
-			
-			if(r.HP <= 0)
-			{
-				r.state = "died";
-				this.EXP += 50;
-				if(this.EXP >= 100)
-					this.upgrade();
-			}
-		}
-		this.attack -= 20;
-	}
-	public void secondSkill(map map1,longHero hero1[],closedHero hero2[],String str) 						//法师技能
-	{
-		int distanceOfSkill = 6;
-		int i,j,flag1,flag2,tap;
-		this.MP -= 30;
-		if(str == "up"||str == "down")
-		{
-			if(str == "up")
-			{
-				flag1 = this.xSeat;
-				flag2 = this.ySeat;
-				tap = -1;
-			}
-			else 
-			{
-				flag1 = this.xSeat;
-				flag2 = this.ySeat;
-				tap = 1;
-			}
-				for(i = 1;i <= distanceOfSkill;i++)
-					for(j = flag1-i-1;j <= flag1+i-1;j++)
-					{
-						if(map1.map[j][flag2+tap*i] == ' ')
-							map1.map[j][flag2+tap*i] = '#';
-						else if(map1.map[j][flag2+tap*i] >= 'A'&&map1.map[j][flag2+tap*i] <= 'Z')
-						{
-							hero1[map1.map[j][flag2+tap*i]-'A'].HP -= (this.level*15 + this.AP*0.8 + 25);
-							if(hero1[map1.map[j][flag2+tap*i]-'A'].HP <= 0)
-							{
-								hero1[map1.map[j][flag2+tap*i]-'A'].state = "died";
-								this.EXP += 50;
-								if(this.EXP >= 100)
-									this.upgrade();
-							}
-						}
-						else if(map1.map[j][flag2+tap*i] >= 'a'&&map1.map[j][flag2+tap*i] <= 'z')
-						{
-							hero2[map1.map[j][flag2+tap*i]-'a'].HP -= (this.level*15 + this.AP*0.8 + 25);
-							if(hero2[map1.map[j][flag2+tap*i]-'a'].HP <= 0)
-							{
-								hero2[map1.map[j][flag2+tap*i]-'a'].state = "died";
-								this.EXP += 50;
-								if(this.EXP >= 100)
-									this.upgrade();
-							}
-						}
-					}
-		}
-		else
-		{
-			if(str == "left")
-			{
-				flag1 = this.xSeat;
-				flag2 = this.ySeat;
-				tap = -1;
-			}
-			else 
-			{
-				flag1 = this.xSeat;
-				flag2 = this.ySeat;
-				tap = 1;
-			}
-			for(i = 1;i <= distanceOfSkill;i++)
-				for(j = flag1-i-1;j <= flag1+i-1;j++)
+				if(map1.map[this.xSeat][this.ySeat-1] == ' ')
 				{
-					if(map1.map[flag2+tap*i][j] == ' ')
-						map1.map[flag2+tap*i][j] = '#';
-					else if(map1.map[flag2+tap*i][j] >= 'A'&&map1.map[j][flag2+tap*i] <= 'Z')
-					{
-						hero1[map1.map[flag2+tap*i][j]-'A'].HP -= (this.level*15 + this.AP*0.8 + 25);
-						if(hero1[map1.map[flag2+tap*i][j]-'A'].HP <= 0)
-						{
-							hero1[map1.map[flag2+tap*i][j]-'A'].state = "died";
-							this.EXP += 50;
-							if(this.EXP >= 100)
-								this.upgrade();
-						}
-					}
-					else if(map1.map[flag2+tap*i][j] >= 'a'&&map1.map[flag2+tap*i][j] <= 'z')
-					{
-						hero1[map1.map[flag2+tap*i][j]-'a'].HP -= (this.level*15 + this.AP*0.8 + 25);
-						if(hero1[map1.map[flag2+tap*i][j]-'a'].HP <= 0)
-						{
-							hero1[map1.map[flag2+tap*i][j]-'a'].state = "died";
-							this.EXP += 50;
-							if(this.EXP >= 100)
-								this.upgrade();
-						}
-					}
+					map1.map[this.xSeat][this.ySeat-1] = '<';
+					map1.print();
 				}
-		}
-	}
-	public void thirdSkill(longHero r)							
-	{
-		int distanceOfSkill = 10;
-		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= distanceOfSkill)
-		{
-			r.HP -= (this.level*10 + this.attack*0.6 +this.AP*0.7+ 35);//大招
-			MP -= 50;
-			r.isAction = "NO";
-			r.timeOfAction = 3;
+				for(i = this.ySeat-2;i > r.ySeat;i--)
+				{
+					if(map1.map[this.xSeat][i] == ' ')
+					map1.map[this.xSeat][i] = '<';
+					if(map1.map[this.xSeat][i+1] == '<')
+						map1.map[this.xSeat][i+1] = ' ';
+					map1.print();
+				}
+				if(map1.map[this.xSeat][i+1] == '<')
+					map1.map[this.xSeat][i+1] = ' ';
+				if(r.xSeat < this.xSeat)
+				{
+					if(map1.map[this.xSeat][r.ySeat] == ' ')
+					{
+						map1.map[this.xSeat][r.ySeat] = 'v';
+						map1.print();
+					}
+					for(i = this.xSeat-1;i > r.xSeat;i--)
+					{
+						if(map1.map[i][r.ySeat] == ' ')
+						map1.map[i][r.ySeat] = 'v';
+						if(map1.map[i+1][r.ySeat] == 'v')
+							map1.map[i+1][r.ySeat] = ' ';
+						map1.print();
+					}
+					if(map1.map[i+1][this.ySeat] == 'v')
+						map1.map[i+1][this.ySeat] = ' ';
+				}
+			}
+			else if(r.ySeat > this.ySeat && r.xSeat >= this.xSeat)
+			{
+				if(map1.map[this.xSeat][this.ySeat+1] == ' ')
+				{
+					map1.map[this.xSeat][this.ySeat+1] = '>';
+					map1.print();
+				}
+				for(i = this.ySeat+2;i < r.ySeat;i++)
+				{
+					if(map1.map[this.xSeat][i] == ' ')
+					map1.map[this.xSeat][i] = '>';
+					if(map1.map[this.xSeat][i-1] == '>')
+						map1.map[this.xSeat][i-1] = ' ';
+					map1.print();
+				}
+				if(map1.map[this.xSeat][i-1] == '>')
+					map1.map[this.xSeat][i-1] = ' ';
+				if(r.xSeat > this.xSeat)
+				{
+					if(map1.map[this.xSeat][r.ySeat] == ' ')
+					{
+						map1.map[this.xSeat][r.ySeat] = 'v';
+						map1.print();
+					}
+					for(i = this.xSeat+1;i < r.xSeat;i++)
+					{
+						if(map1.map[i][r.ySeat] == ' ')
+						map1.map[i][r.ySeat] = 'v';
+						if(map1.map[i-1][r.ySeat] == 'v')
+							map1.map[i-1][r.ySeat] = ' ';
+						map1.print();
+					}
+					if(map1.map[i-1][this.ySeat] == 'v')
+						map1.map[i-1][this.ySeat] = ' ';
+				}
+			}
+			else if(r.ySeat >= this.ySeat && r.xSeat < this.xSeat)
+			{
+				if(map1.map[this.xSeat-1][this.ySeat] == ' ')
+				{
+					map1.map[this.xSeat-1][this.ySeat] = '^';
+					map1.print();
+				}
+				for(i = this.xSeat-2;i > r.xSeat;i--)
+				{
+					if(map1.map[i][this.ySeat] == ' ')
+					map1.map[i][this.ySeat] = '^';
+					if(map1.map[i+1][this.ySeat] == '^')
+						map1.map[i+1][this.ySeat] = ' ';
+					map1.print();
+				}
+				if(map1.map[i+1][this.ySeat] == '^')
+					map1.map[i+1][this.ySeat] = ' ';
+				if(r.ySeat > this.ySeat)
+				{
+					if(map1.map[r.xSeat][this.ySeat] == ' ')
+					{
+						map1.map[r.xSeat][this.ySeat] = '>';
+						map1.print();
+					}
+					for(i = this.ySeat+1;i < r.ySeat;i++)
+					{
+						if(map1.map[r.xSeat][i] == ' ')
+						map1.map[r.xSeat][i] = '>';
+						if(map1.map[r.xSeat][i-1] == '>')
+							map1.map[r.xSeat][i-1] = ' ';
+						map1.print();
+					}
+					if(map1.map[i-1][this.xSeat] == '>')
+						map1.map[i-2][this.xSeat] = ' ';
+				}
+			}
+			else if(r.ySeat <= this.ySeat && r.xSeat > this.xSeat)
+			{
+				if(map1.map[this.xSeat+1][this.ySeat] == ' ')
+				{
+					map1.map[this.xSeat+1][this.ySeat] = 'v';
+					map1.print();
+				}
+				for(i = this.xSeat+2;i < r.xSeat;i++)
+				{
+					if(map1.map[i][this.ySeat] == ' ')
+					map1.map[i][this.ySeat] = 'v';
+					if(map1.map[i-1][this.ySeat] == 'v')
+						map1.map[i-1][this.ySeat] = ' ';
+					map1.print();
+				}
+				if(map1.map[i-1][this.ySeat] == 'v')
+					map1.map[i-1][this.ySeat] = ' ';
+				if(r.ySeat < this.ySeat)
+				{
+					if(map1.map[r.xSeat][this.ySeat] == ' ')
+					{
+						map1.map[r.xSeat][this.ySeat] = '<';
+						map1.print();
+					}
+					for(i = this.ySeat-1;i > r.ySeat;i--)
+					{
+						if(map1.map[r.xSeat][i] == ' ')
+						map1.map[r.xSeat][i] = '<';
+						if(map1.map[r.xSeat][i+1] == '<')
+							map1.map[r.xSeat][i+1] = ' ';
+						map1.print();
+					}
+					if(map1.map[i+1][this.xSeat] == '<')
+						map1.map[i+1][this.xSeat] = ' ';
+				}
+			}
+			r.HP -= this.attack;
 			if(r.HP <= 0)
 			{
 				r.state = "died";
@@ -197,15 +200,158 @@ public class longHero extends hero{
 			}
 		}
 	}
-	public void thirdSkill(closedHero r)							
+
+	public void CommonAttack(closedHero r,map map1)	//普通攻击
+
 	{
-		int distanceOfSkill = 10;
-		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= distanceOfSkill)
+		int i,j;
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance*this.attackDistance)
 		{
-			r.HP -= (this.level*10 + this.attack*0.6 +this.AP*0.7+ 35);//大招
-			MP -= 50;
-			r.isAction = "NO";
-			r.timeOfAction = 3;
+			if(r.ySeat < this.ySeat && r.xSeat <= this.xSeat)
+			{
+				if(map1.map[this.xSeat][this.ySeat-1] == ' ')
+				{
+					map1.map[this.xSeat][this.ySeat-1] = '<';
+					map1.print();
+				}
+				for(i = this.ySeat-2;i > r.ySeat;i--)
+				{
+					if(map1.map[this.xSeat][i] == ' ')
+					map1.map[this.xSeat][i] = '<';
+					if(map1.map[this.xSeat][i+1] == '<')
+						map1.map[this.xSeat][i+1] = ' ';
+					map1.print();
+				}
+				if(map1.map[this.xSeat][i+1] == '<')
+					map1.map[this.xSeat][i+1] = ' ';
+				if(r.xSeat < this.xSeat)
+				{
+					if(map1.map[this.xSeat][r.ySeat] == ' ')
+					{
+						map1.map[this.xSeat][r.ySeat] = 'v';
+						map1.print();
+					}
+					for(i = this.xSeat-1;i > r.xSeat;i--)
+					{
+						if(map1.map[i][r.ySeat] == ' ')
+						map1.map[i][r.ySeat] = 'v';
+						if(map1.map[i+1][r.ySeat] == 'v')
+							map1.map[i+1][r.ySeat] = ' ';
+						map1.print();
+					}
+					if(map1.map[i+1][this.ySeat] == 'v')
+						map1.map[i+1][this.ySeat] = ' ';
+				}
+			}
+			else if(r.ySeat > this.ySeat && r.xSeat >= this.xSeat)
+			{
+				if(map1.map[this.xSeat][this.ySeat+1] == ' ')
+				{
+					map1.map[this.xSeat][this.ySeat+1] = '>';
+					map1.print();
+				}
+				for(i = this.ySeat+2;i < r.ySeat;i++)
+				{
+					if(map1.map[this.xSeat][i] == ' ')
+					map1.map[this.xSeat][i] = '>';
+					if(map1.map[this.xSeat][i-1] == '>')
+						map1.map[this.xSeat][i-1] = ' ';
+					map1.print();
+				}
+				if(map1.map[this.xSeat][i-1] == '>')
+					map1.map[this.xSeat][i-1] = ' ';
+				if(r.xSeat > this.xSeat)
+				{
+					if(map1.map[this.xSeat][r.ySeat] == ' ')
+					{
+						map1.map[this.xSeat][r.ySeat] = 'v';
+						map1.print();
+					}
+					for(i = this.xSeat+1;i < r.xSeat;i++)
+					{
+						if(map1.map[i][r.ySeat] == ' ')
+						map1.map[i][r.ySeat] = 'v';
+						if(map1.map[i-1][r.ySeat] == 'v')
+							map1.map[i-1][r.ySeat] = ' ';
+						map1.print();
+					}
+					if(map1.map[i-1][this.ySeat] == 'v')
+						map1.map[i-1][this.ySeat] = ' ';
+				}
+			}
+			else if(r.ySeat >= this.ySeat && r.xSeat < this.xSeat)
+			{
+				if(map1.map[this.xSeat-1][this.ySeat] == ' ')
+				{
+					map1.map[this.xSeat-1][this.ySeat] = '^';
+					map1.print();
+				}
+				for(i = this.xSeat-2;i > r.xSeat;i--)
+				{
+					if(map1.map[i][this.ySeat] == ' ')
+					map1.map[i][this.ySeat] = '^';
+					if(map1.map[i+1][this.ySeat] == '^')
+						map1.map[i+1][this.ySeat] = ' ';
+					map1.print();
+				}
+				if(map1.map[i+1][this.ySeat] == '^')
+					map1.map[i+1][this.ySeat] = ' ';
+				if(r.ySeat > this.ySeat)
+				{
+					if(map1.map[r.xSeat][this.ySeat] == ' ')
+					{
+						map1.map[r.xSeat][this.ySeat] = '>';
+						map1.print();
+					}
+					for(i = this.ySeat+1;i < r.ySeat;i++)
+					{
+						if(map1.map[r.xSeat][i] == ' ')
+						map1.map[r.xSeat][i] = '>';
+						if(map1.map[r.xSeat][i-1] == '>')
+							map1.map[r.xSeat][i-1] = ' ';
+						map1.print();
+					}
+					if(map1.map[i-1][this.xSeat] == '>')
+						map1.map[i-2][this.xSeat] = ' ';
+				}
+			}
+			else if(r.ySeat <= this.ySeat && r.xSeat > this.xSeat)
+			{
+				if(map1.map[this.xSeat+1][this.ySeat] == ' ')
+				{
+					map1.map[this.xSeat+1][this.ySeat] = 'v';
+					map1.print();
+				}
+				for(i = this.xSeat+2;i < r.xSeat;i++)
+				{
+					if(map1.map[i][this.ySeat] == ' ')
+					map1.map[i][this.ySeat] = 'v';
+					if(map1.map[i-1][this.ySeat] == 'v')
+						map1.map[i-1][this.ySeat] = ' ';
+					map1.print();
+				}
+				if(map1.map[i-1][this.ySeat] == 'v')
+					map1.map[i-1][this.ySeat] = ' ';
+				if(r.ySeat < this.ySeat)
+				{
+					if(map1.map[r.xSeat][this.ySeat] == ' ')
+					{
+						map1.map[r.xSeat][this.ySeat] = '<';
+						map1.print();
+					}
+					for(i = this.ySeat-1;i > r.ySeat;i--)
+					{
+						if(map1.map[r.xSeat][i] == ' ')
+						map1.map[r.xSeat][i] = '<';
+						if(map1.map[r.xSeat][i+1] == '<')
+							map1.map[r.xSeat][i+1] = ' ';
+						map1.print();
+					}
+					if(map1.map[i+1][this.xSeat] == '<')
+						map1.map[i+1][this.xSeat] = ' ';
+				}
+			}
+			r.HP -= this.attack;
 			if(r.HP <= 0)
 			{
 				r.state = "died";
@@ -214,24 +360,284 @@ public class longHero extends hero{
 					this.upgrade();
 			}
 		}
+
 	}
-	
-	public void upgrade()
+
+	public void firstSkill(longHero r)				//第一个技能	
+
 	{
+
+		this.attack += 20;
+
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
+
+		{
+
+			r.HP -= this.attack;
+
+			MP -= 20;
+
+			
+
+			if(r.HP <= 0)
+
+			{
+
+				r.state = "died";
+
+				this.EXP += 50;
+
+				if(this.EXP >= 100)
+
+					this.upgrade();
+
+			}
+
+		}
+
+		this.attack -= 20;
+
+	}
+
+	public void firstSkill(closedHero r)            //第一个技能
+
+	{
+
+		this.attack += 20;
+
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= this.attackDistance)
+
+		{
+
+			r.HP -= this.attack;
+
+			MP -= 20;
+
+			
+
+			if(r.HP <= 0)
+
+			{
+
+				r.state = "died";
+
+				this.EXP += 50;
+
+				if(this.EXP >= 100)
+
+					this.upgrade();
+
+			}
+
+		}
+
+		this.attack -= 20;
+
+	}
+
+	public void secondSkill(map map1,longHero hero1[],closedHero hero2[],String str) 						//法师技能
+
+	{
+
+		int distanceOfSkill = 6;
+
+		int i,j,flag1,flag2,tap;
+
+		this.MP -= 30;
+
+		if(str == "up"||str == "down")
+
+		{
+
+			if(str == "up")
+
+			{
+
+				flag1 = this.xSeat;
+
+				flag2 = this.ySeat;
+
+				tap = -1;
+
+			}
+
+			else 
+
+			{
+
+				flag1 = this.xSeat;
+
+				flag2 = this.ySeat;
+
+				tap = 1;
+
+			}
+
+				for(i = 1;i <= distanceOfSkill;i++)
+
+					for(j = flag1-i-1;j <= flag1+i-1;j++)
+
+					{
+
+						if(map1.map[j][flag2+tap*i] == ' ')
+
+							map1.map[j][flag2+tap*i] = '#';
+
+						else if(map1.map[j][flag2+tap*i] >= 'A'&&map1.map[j][flag2+tap*i] <= 'Z')
+
+						{
+
+							hero1[map1.map[j][flag2+tap*i]-'A'].HP -= (this.level*15 + this.AP*0.8 + 25);
+
+							if(hero1[map1.map[j][flag2+tap*i]-'A'].HP <= 0)
+
+							{
+
+								hero1[map1.map[j][flag2+tap*i]-'A'].state = "died";
+
+								this.EXP += 50;
+
+								if(this.EXP >= 100)
+
+									this.upgrade();
+
+							}
+
+						}
+
+						else if(map1.map[j][flag2+tap*i] >= 'a'&&map1.map[j][flag2+tap*i] <= 'z')
+
+						{
+
+							hero2[map1.map[j][flag2+tap*i]-'a'].HP -= (this.level*15 + this.AP*0.8 + 25);
+
+							if(hero2[map1.map[j][flag2+tap*i]-'a'].HP <= 0)
+
+							{
+
+								hero2[map1.map[j][flag2+tap*i]-'a'].state = "died";
+
+								this.EXP += 50;
+
+								if(this.EXP >= 100)
+
+									this.upgrade();
+
+							}
+
+						}
+
+					}
+		}
+
+		}
+
+	public void thirdSkill(longHero r)				//大招			
+
+	{
+
+		int distanceOfSkill = 10;
+
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= distanceOfSkill)
+
+		{
+
+			r.HP -= (this.level*10 + this.attack*0.6 +this.AP*0.7+ 35);//大招
+
+			MP -= 50;
+
+			r.isAction = "NO";
+
+			r.timeOfAction = 3;
+
+			if(r.HP <= 0)
+
+			{
+
+				r.state = "died";
+
+				this.EXP += 50;
+
+				if(this.EXP >= 100)
+
+					this.upgrade();
+
+			}
+
+		}
+
+	}
+
+	public void thirdSkill(closedHero r)			//大招				
+
+	{
+
+		int distanceOfSkill = 10;
+
+		if(((this.xSeat-r.xSeat)*(this.xSeat-r.xSeat)+(this.ySeat-r.ySeat)*(this.ySeat-r.ySeat)) <= distanceOfSkill)
+
+		{
+
+			r.HP -= (this.level*10 + this.attack*0.6 +this.AP*0.7+ 35);//大招
+
+			MP -= 50;
+
+			r.isAction = "NO";
+
+			r.timeOfAction = 3;
+
+			if(r.HP <= 0)
+
+			{
+
+				r.state = "died";
+
+				this.EXP += 50;
+
+				if(this.EXP >= 100)
+
+					this.upgrade();
+
+			}
+
+		}
+
+	}
+
+	public void upgrade()                           //英雄升级
+
+	{
+
 		EXP = EXP - 100;
+
 		HP += 75;
+
 		MP += 60;
+
 		AP += 30;
+
 		level ++;
+
 		attack += 10;
+
 	}
-	public void HP_MP_EXPup()
+
+	public void HP_MP_EXPup()                       //每回合英雄生命值法力值经验值恢回复
+
 	{
+
 		HP += 3;
+
 		MP += 10;
+
 		AP += 5;
+
 		EXP += 10;
+
 		if(EXP >= 100)
+
 			this.upgrade();
+
 	}
+
 }
