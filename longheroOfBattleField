@@ -239,8 +239,8 @@ public class longHero extends hero{
 							map1.map[i+1][r.ySeat] = ' ';
 						map1.print();
 					}
-					if(map1.map[i+1][this.ySeat] == 'v')
-						map1.map[i+1][this.ySeat] = ' ';
+					if(map1.map[i+1][r.ySeat] == 'v')
+						map1.map[i+1][r.ySeat] = ' ';
 				}
 			}
 			else if(r.ySeat > this.ySeat && r.xSeat >= this.xSeat)
@@ -275,8 +275,8 @@ public class longHero extends hero{
 							map1.map[i-1][r.ySeat] = ' ';
 						map1.print();
 					}
-					if(map1.map[i-1][this.ySeat] == 'v')
-						map1.map[i-1][this.ySeat] = ' ';
+					if(map1.map[i-1][r.ySeat] == 'v')
+						map1.map[i-1][r.ySeat] = ' ';
 				}
 			}
 			else if(r.ySeat >= this.ySeat && r.xSeat < this.xSeat)
@@ -311,8 +311,8 @@ public class longHero extends hero{
 							map1.map[r.xSeat][i-1] = ' ';
 						map1.print();
 					}
-					if(map1.map[i-1][this.xSeat] == '>')
-						map1.map[i-2][this.xSeat] = ' ';
+					if(map1.map[r.xSeat][i-1] == '>')
+						map1.map[r.xSeat][i-1] = ' ';
 				}
 			}
 			else if(r.ySeat <= this.ySeat && r.xSeat > this.xSeat)
@@ -347,8 +347,8 @@ public class longHero extends hero{
 							map1.map[r.xSeat][i+1] = ' ';
 						map1.print();
 					}
-					if(map1.map[i+1][this.xSeat] == '<')
-						map1.map[i+1][this.xSeat] = ' ';
+					if(map1.map[r.xSeat][i+1] == '<')
+						map1.map[r.xSeat][i+1] = ' ';
 				}
 			}
 			r.HP -= this.attack;
@@ -439,21 +439,21 @@ public class longHero extends hero{
 
 	{
 
-		int distanceOfSkill = 6;
+		int distanceOfSkill = 4;
 
 		int i,j,flag1,flag2,tap;
 
 		this.MP -= 30;
 
-		if(str == "up"||str == "down")
+		if(str.equals("left")||str.equals("right"))
 
 		{
 
-			if(str == "up")
+			if(str.equals("left"))
 
 			{
 
-				flag1 = this.xSeat;
+				flag1 = this.xSeat+1;
 
 				flag2 = this.ySeat;
 
@@ -465,16 +465,18 @@ public class longHero extends hero{
 
 			{
 
-				flag1 = this.xSeat;
+				flag1 = this.xSeat+1;
 
 				flag2 = this.ySeat;
 
 				tap = 1;
 
 			}
+			//System.out.println(123);
 
 				for(i = 1;i <= distanceOfSkill;i++)
 
+				{
 					for(j = flag1-i-1;j <= flag1+i-1;j++)
 
 					{
@@ -486,22 +488,22 @@ public class longHero extends hero{
 						else if(map1.map[j][flag2+tap*i] >= 'A'&&map1.map[j][flag2+tap*i] <= 'Z')
 
 						{
-
-							hero1[map1.map[j][flag2+tap*i]-'A'].HP -= (this.level*15 + this.AP*0.8 + 25);
-
-							if(hero1[map1.map[j][flag2+tap*i]-'A'].HP <= 0)
-
-							{
-
-								hero1[map1.map[j][flag2+tap*i]-'A'].state = "died";
-
-								this.EXP += 50;
-
-								if(this.EXP >= 100)
-
-									this.upgrade();
-
-							}
+							//System.out.println(map1.map[j][flag2+tap*i]-'A');
+//							hero1[map1.map[j][flag2+tap*i]-'A'].HP -= (this.level*15 + this.AP*0.8 + 25);
+//
+//							if(hero1[map1.map[j][flag2+tap*i]-'A'].HP <= 0)
+//
+//							{
+//
+//								hero1[map1.map[j][flag2+tap*i]-'A'].state = "died";
+//
+//								this.EXP += 50;
+//
+//								if(this.EXP >= 100)
+//
+//									this.upgrade();
+//
+//							}
 
 						}
 
@@ -509,27 +511,115 @@ public class longHero extends hero{
 
 						{
 
-							hero2[map1.map[j][flag2+tap*i]-'a'].HP -= (this.level*15 + this.AP*0.8 + 25);
-
-							if(hero2[map1.map[j][flag2+tap*i]-'a'].HP <= 0)
-
-							{
-
-								hero2[map1.map[j][flag2+tap*i]-'a'].state = "died";
-
-								this.EXP += 50;
-
-								if(this.EXP >= 100)
-
-									this.upgrade();
-
-							}
+//							hero2[map1.map[j][flag2+tap*i]-'a'].HP -= (this.level*15 + this.AP*0.8 + 25);
+//
+//							if(hero2[map1.map[j][flag2+tap*i]-'a'].HP <= 0)
+//
+//							{ 
+//
+//								hero2[map1.map[j][flag2+tap*i]-'a'].state = "died";
+//
+//								this.EXP += 50;
+//
+//								if(this.EXP >= 100)
+//
+//									this.upgrade();
+//
+//							}
 
 						}
 
 					}
+					map1.print();
+				}
 		}
+		else
+		{
+			if(str.equals("up"))
 
+			{
+
+				flag1 = this.xSeat+1;
+
+				flag2 = this.ySeat;
+
+				tap = -1;
+
+			}
+
+			else 
+
+			{
+
+				flag1 = this.xSeat+1;
+
+				flag2 = this.ySeat;
+
+				tap = 1;
+
+			}
+			//System.out.println(123);
+
+				for(i = 1;i <= distanceOfSkill;i++)
+
+				{
+					for(j = flag1-i-1;j <= flag1+i-1;j++)
+
+					{
+
+						if(map1.map[flag2+tap*i][j] == ' ')
+
+							map1.map[flag2+tap*i][j] = '#';
+
+						else if(map1.map[j][flag2+tap*i] >= 'A'&&map1.map[j][flag2+tap*i] <= 'Z')
+
+						{
+							//System.out.println(map1.map[j][flag2+tap*i]-'A');
+//							hero1[map1.map[j][flag2+tap*i]-'A'].HP -= (this.level*15 + this.AP*0.8 + 25);
+//
+//							if(hero1[map1.map[j][flag2+tap*i]-'A'].HP <= 0)
+//
+//							{
+//
+//								hero1[map1.map[j][flag2+tap*i]-'A'].state = "died";
+//
+//								this.EXP += 50;
+//
+//								if(this.EXP >= 100)
+//
+//									this.upgrade();
+//
+//							}
+
+						}
+
+						else if(map1.map[j][flag2+tap*i] >= 'a'&&map1.map[j][flag2+tap*i] <= 'z')
+
+						{
+
+//							hero2[map1.map[j][flag2+tap*i]-'a'].HP -= (this.level*15 + this.AP*0.8 + 25);
+//
+//							if(hero2[map1.map[j][flag2+tap*i]-'a'].HP <= 0)
+//
+//							{ 
+//
+//								hero2[map1.map[j][flag2+tap*i]-'a'].state = "died";
+//
+//								this.EXP += 50;
+//
+//								if(this.EXP >= 100)
+//
+//									this.upgrade();
+//
+//							}
+
+						}
+
+					}
+					map1.print();
+				}
+		}
+		
 		}
 
 	public void thirdSkill(longHero r)				//大招			
@@ -641,3 +731,4 @@ public class longHero extends hero{
 	}
 
 }
+
